@@ -8,9 +8,9 @@ class ExpenseItems extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Card(
+    return Card(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -18,28 +18,39 @@ class ExpenseItems extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  expensItem.category.,
-                  style: TextStyle(fontSize: 16),
+                  expensItem.category.name.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
                 Text(
-                  'Date',
-                  style: TextStyle(fontSize: 14),
+                  expensItem.date.toString(),
+                  style: const TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ],
             ),
-            SizedBox(
-              height: 10,
+            const SizedBox(
+              height: 5,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  'Title',
-                  style: TextStyle(fontSize: 24),
+                  expensItem.title,
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
                 Text(
-                  '2000Rs',
-                  style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
+                  '\$${expensItem.amount.toStringAsFixed(2)}',
+                  style: const TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.red,
+                  ),
                 ),
               ],
             ),
