@@ -1,5 +1,8 @@
+import 'package:intl/intl.dart';
 import 'package:uuid/uuid.dart';
 //a model for the expense app to display or get the data required.
+
+final formatter = DateFormat.yMd();  // get the formatterd date format
 
 const uuid = Uuid();
 //enum to display the Category of Expense with default values only.
@@ -19,4 +22,8 @@ class Expense {
   final String title;
   final DateTime date;
   final Category category;
+
+  get formattedDate {
+    return formatter.format(date);
+  }
 }

@@ -22,11 +22,26 @@ class _ExpenseState extends State<Expenses> {
         title: 'Pizza',
         category: Category.food),
   ];
+
+  void _openExpenseDrawer(){
+    showModalBottomSheet(context: context, builder: (ctx) => Text('Drawer'));
+  }
+
   @override
   Widget build(Object context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(154, 165, 241, 98),
+        title: const Text(
+          'Kharche',
+          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
+        ),
+        actions:  <Widget>[
+          IconButton(onPressed: _openExpenseDrawer, icon: const Icon(Icons.add,size: 35,)),
+        ],
+      ),
       body: Column(
-        children: [ 
+        children: [
           const Text('hi everyone'),
           Expanded(
             child: ExpenseList(expense: _registeredExpenses),

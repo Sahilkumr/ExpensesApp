@@ -24,7 +24,7 @@ class ExpenseItems extends StatelessWidget {
                   ),
                 ),
                 Text(
-                  expensItem.date.toString(),
+                  expensItem.formattedDate,
                   style: const TextStyle(
                     fontSize: 14,
                   ),
