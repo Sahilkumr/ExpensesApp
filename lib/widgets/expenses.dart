@@ -24,8 +24,15 @@ class _ExpenseState extends State<Expenses> {
         category: Category.food),
   ];
 
-  void _openExpenseDrawer(){
-    showModalBottomSheet(context: context, builder: (ctx) => const NewExpense());
+  void _openExpenseDrawer() {
+    showModalBottomSheet(
+        context: context, builder: (ctx) => NewExpense(onSubmitNewExpense: _addNewExpense,));
+  }
+
+  void _addNewExpense(Expense expense) {
+    setState(() {
+      _registeredExpenses.add(expense);
+    });
   }
 
   @override
@@ -37,8 +44,13 @@ class _ExpenseState extends State<Expenses> {
           'Kharche',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 28),
         ),
-        actions:  <Widget>[
-          IconButton(onPressed: _openExpenseDrawer, icon: const Icon(Icons.add,size: 35,)),
+        actions: <Widget>[
+          IconButton(
+              onPressed: _openExpenseDrawer,
+              icon: const Icon(
+                Icons.add,
+                size: 35,
+              )),
         ],
       ),
       body: Column(
