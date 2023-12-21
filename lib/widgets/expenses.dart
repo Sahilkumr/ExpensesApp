@@ -1,5 +1,3 @@
-import 'dart:js_util';
-
 import 'package:expenses_app/widgets/expenses_list/expense_list.dart';
 import 'package:expenses_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -45,13 +43,17 @@ class _ExpenseState extends State<Expenses> {
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: const  Text('Expense Deleted'),
-      action: SnackBarAction(label: 'Undo' , onPressed: (){
-      setState(() {
-        _registeredExpenses.insert(deletedExpeseIndex, expense);
-      });
-      }),
+      content: const Text('Expense Deleted'),
+      duration: const Duration(seconds: 1),
+      action: SnackBarAction(
+          label: 'Undo',
+          onPressed: () {
+            setState(() {
+              _registeredExpenses.insert(deletedExpeseIndex, expense);
+            });
+          }),
     ));
   }
 
