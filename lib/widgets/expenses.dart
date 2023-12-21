@@ -1,3 +1,5 @@
+import 'package:expenses_app/Chart/chart.dart';
+import 'package:expenses_app/Chart/chart_bar.dart';
 import 'package:expenses_app/widgets/expenses_list/expense_list.dart';
 import 'package:expenses_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -87,6 +89,7 @@ class _ExpenseState extends State<Expenses> {
       ),
       body: Column(
         children: [
+          Chart(expenses: _registeredExpenses),
           Expanded(
             child: emptyNonEmptyExpense,
           ),
