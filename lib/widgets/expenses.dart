@@ -1,3 +1,5 @@
+import 'dart:js_util';
+
 import 'package:expenses_app/widgets/expenses_list/expense_list.dart';
 import 'package:expenses_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -26,7 +28,10 @@ class _ExpenseState extends State<Expenses> {
 
   void _openExpenseDrawer() {
     showModalBottomSheet(
-        context: context, builder: (ctx) => NewExpense(onSubmitNewExpense: _addNewExpense,));
+        context: context,
+        builder: (ctx) => NewExpense(
+              onSubmitNewExpense: _addNewExpense,
+            ));
   }
 
   void _addNewExpense(Expense expense) {
@@ -35,14 +40,33 @@ class _ExpenseState extends State<Expenses> {
     });
   }
 
-  void _removeExpense(Expense expense){
+  void _removeExpense(Expense expense) {
+    final deletedExpeseIndex = _registeredExpenses.indexOf(expense);
     setState(() {
       _registeredExpenses.remove(expense);
     });
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: const  Text('Expense Deleted'),
+      action: SnackBarAction(label: 'Undo' , onPressed: (){
+      setState(() {
+        _registeredExpenses.insert(deletedExpeseIndex, expense);
+      });
+      }),
+    ));
   }
 
   @override
   Widget build(Object context) {
+    Widget emptyNonEmptyExpense = const Center(
+      child: Text('No Expense Found, Enter One!'),
+    );
+
+    if (_registeredExpenses.isNotEmpty) {
+      emptyNonEmptyExpense = ExpenseList(
+        expense: _registeredExpenses,
+        onRemoveExpense: (expense) => _removeExpense(expense),
+      );
+    }
     return Scaffold(
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(154, 165, 241, 98),
@@ -62,7 +86,7 @@ class _ExpenseState extends State<Expenses> {
       body: Column(
         children: [
           Expanded(
-            child: ExpenseList(expense: _registeredExpenses,onRemoveExpense: (expense) => _removeExpense(expense),),
+            child: emptyNonEmptyExpense,
           ),
         ],
       ),
