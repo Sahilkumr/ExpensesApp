@@ -1,4 +1,5 @@
 import 'package:expenses_app/widgets/expenses_list/expense_list.dart';
+import 'package:expenses_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
 import 'package:expenses_app/model/expense.dart';
 
@@ -24,7 +25,7 @@ class _ExpenseState extends State<Expenses> {
   ];
 
   void _openExpenseDrawer(){
-    showModalBottomSheet(context: context, builder: (ctx) => Text('Drawer'));
+    showModalBottomSheet(context: context, builder: (ctx) => const NewExpense());
   }
 
   @override
@@ -42,7 +43,6 @@ class _ExpenseState extends State<Expenses> {
       ),
       body: Column(
         children: [
-          const Text('hi everyone'),
           Expanded(
             child: ExpenseList(expense: _registeredExpenses),
           ),
