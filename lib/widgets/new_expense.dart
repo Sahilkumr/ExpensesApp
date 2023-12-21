@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -24,6 +26,7 @@ class _NewExpenseState extends State<NewExpense> {
       padding: const EdgeInsets.all(16),
       child: Column(
         children: [
+          //Title TextField
           TextField(
             controller: _titleControler,
             maxLength: 40,
@@ -34,20 +37,55 @@ class _NewExpenseState extends State<NewExpense> {
               labelStyle: TextStyle(fontSize: 18),
             ),
           ),
-          TextField(
-            controller: _amountControler,
-            maxLength: 10,
-            keyboardType: const TextInputType.numberWithOptions(decimal: true),
-            decoration: const InputDecoration(
-              border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10))),
-              label: Text('Amount'),
-              labelStyle: TextStyle(fontSize: 18),
-            ),
+          Row(
+            children: [
+              //Amount TextField
+              Expanded(
+                child: TextField(
+                  controller: _amountControler,
+                  maxLength: 10,
+                  keyboardType:
+                      const TextInputType.numberWithOptions(decimal: true),
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(10))),
+                    prefix: Text('\$ '),
+                    label: Text('Amount'),
+                    labelStyle: TextStyle(fontSize: 18),
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 5,
+              ),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    //Date Picker
+                    const Text(
+                      'Select Date:',
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    ),
+                    IconButton(
+                      onPressed: () {},
+                      icon: const Icon(
+                        Icons.calendar_month_outlined,
+                        size: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            ],
           ),
+
           Row(
             mainAxisAlignment: MainAxisAlignment.end,
             children: [
+              //Save Expense Btn
               ElevatedButton(
                 onPressed: () {
                   print(_titleControler.text);
@@ -58,16 +96,16 @@ class _NewExpenseState extends State<NewExpense> {
                   style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                 ),
               ),
+              //Cancel Btn
               TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text(
-                'Cancel',
-              )),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                  child: const Text(
+                    'Cancel',
+                  )),
             ],
           ),
-          
         ],
       ),
     );
