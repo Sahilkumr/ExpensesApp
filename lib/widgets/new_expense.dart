@@ -1,7 +1,5 @@
-import 'dart:ui';
 import 'package:expenses_app/model/expense.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 class NewExpense extends StatefulWidget {
   const NewExpense({super.key});
@@ -13,6 +11,8 @@ class NewExpense extends StatefulWidget {
 class _NewExpenseState extends State<NewExpense> {
   final _titleControler = TextEditingController();
   final _amountControler = TextEditingController();
+
+  Category _selectedDropDownValue = Category.health;
 
   DateTime? _selectedDate;
 
@@ -71,9 +71,12 @@ class _NewExpenseState extends State<NewExpense> {
                   ),
                 ),
               ),
+              
+
               const SizedBox(
                 width: 30,
               ),
+
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -100,10 +103,28 @@ class _NewExpenseState extends State<NewExpense> {
               )
             ],
           ),
-
+          const SizedBox(height: 10,),
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+              //DropDownMenu
+              DropdownButton(
+                value: _selectedDropDownValue,
+                items: Category.values
+                    .map((category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(category.name.toUpperCase())))
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedDropDownValue = value;
+                  });
+                },
+              ),
+              const Spacer(),
               //Save Expense Btn
               ElevatedButton(
                 onPressed: () {
@@ -117,12 +138,13 @@ class _NewExpenseState extends State<NewExpense> {
               ),
               //Cancel Btn
               TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: const Text(
-                    'Cancel',
-                  )),
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text(
+                  'Cancel',
+                ),
+              ),
             ],
           ),
         ],
