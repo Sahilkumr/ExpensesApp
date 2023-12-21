@@ -1,5 +1,5 @@
 import 'dart:ui';
-
+import 'package:expenses_app/model/expense.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -14,10 +14,26 @@ class _NewExpenseState extends State<NewExpense> {
   final _titleControler = TextEditingController();
   final _amountControler = TextEditingController();
 
+  DateTime? _selectedDate;
+
   @override
   void dispose() {
     _titleControler.dispose();
     super.dispose();
+  }
+
+  void _expenseDatePicker() async {
+    final today = DateTime.now();
+    final firstDate = DateTime(today.year - 1, today.month, today.day);
+    final pickedDate = await showDatePicker(
+        context: context,
+        firstDate: firstDate,
+        lastDate: today,
+        initialDate: today);
+
+    setState(() {
+      _selectedDate = pickedDate;
+    });
   }
 
   @override
@@ -43,7 +59,7 @@ class _NewExpenseState extends State<NewExpense> {
               Expanded(
                 child: TextField(
                   controller: _amountControler,
-                  maxLength: 10,
+                  maxLength: 7,
                   keyboardType:
                       const TextInputType.numberWithOptions(decimal: true),
                   decoration: const InputDecoration(
@@ -56,34 +72,37 @@ class _NewExpenseState extends State<NewExpense> {
                 ),
               ),
               const SizedBox(
-                width: 5,
+                width: 30,
               ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Date Picker
-                    const Text(
-                      'Select Date:',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.end,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //Date Picker
+                  Text(
+                    _selectedDate == null
+                        ? 'Select Date'
+                        : formatter.format(_selectedDate!),
+                    style: const TextStyle(
+                        fontSize: 18, fontWeight: FontWeight.bold),
+                  ),
+                  IconButton(
+                    onPressed: _expenseDatePicker,
+                    icon: const Icon(
+                      Icons.calendar_month_outlined,
+                      size: 30,
                     ),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(
-                        Icons.calendar_month_outlined,
-                        size: 30,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                  )
+                ],
               )
             ],
           ),
 
           Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               //Save Expense Btn
               ElevatedButton(
