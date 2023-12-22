@@ -1,5 +1,5 @@
 import 'package:expenses_app/Chart/chart.dart';
-import 'package:expenses_app/Chart/chart_bar.dart';
+// import 'package:expenses_app/Chart/chart_bar.dart';
 import 'package:expenses_app/widgets/expenses_list/expense_list.dart';
 import 'package:expenses_app/widgets/new_expense.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +29,7 @@ class _ExpenseState extends State<Expenses> {
   void _openExpenseDrawer() {
     showModalBottomSheet(
         context: context,
+        isScrollControlled: true,
         builder: (ctx) => NewExpense(
               onSubmitNewExpense: _addNewExpense,
             ));
@@ -60,7 +61,9 @@ class _ExpenseState extends State<Expenses> {
   }
 
   @override
-  Widget build(Object context) {
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+
     Widget emptyNonEmptyExpense = const Center(
       child: Text('No Expense Found, Enter One!'),
     );
@@ -87,14 +90,23 @@ class _ExpenseState extends State<Expenses> {
               )),
         ],
       ),
-      body: Column(
-        children: [
-          Chart(expenses: _registeredExpenses),
-          Expanded(
-            child: emptyNonEmptyExpense,
-          ),
-        ],
-      ),
+      body: screenWidth < 600
+          ? Column(
+              children: [
+                Expanded(child: Chart(expenses: _registeredExpenses)),
+                Expanded(
+                  child: emptyNonEmptyExpense,
+                ),
+              ],
+            )
+          : Row(children: [
+              Expanded(
+                child: Chart(expenses: _registeredExpenses),
+              ),
+              Expanded(
+                child: emptyNonEmptyExpense,
+              ),
+            ]),
     );
   }
 }
